@@ -10,6 +10,7 @@ import { Chrome74 } from './handlers/Chrome74';
 import { Chrome70 } from './handlers/Chrome70';
 import { Chrome67 } from './handlers/Chrome67';
 import { Chrome55 } from './handlers/Chrome55';
+import { Chrome49 } from './handlers/Chrome49';
 import { Firefox60 } from './handlers/Firefox60';
 import { Safari12 } from './handlers/Safari12';
 import { Safari11 } from './handlers/Safari11';
@@ -25,6 +26,7 @@ export type BuiltinHandlerName =
 	| 'Chrome70'
 	| 'Chrome67'
 	| 'Chrome55'
+	| 'Chrome49'
 	| 'Firefox60'
 	| 'Safari12'
 	| 'Safari11'
@@ -95,6 +97,10 @@ export function detectDevice(): BuiltinHandlerName | undefined
 		{
 			return 'Chrome55';
 		}
+		else if (browser.satisfies({ chrome: '>=49', chromium: '>=49' }))
+		{
+			return 'Chrome49';
+		}
 		// Firefox.
 		else if (browser.satisfies({ firefox: '>=60' }))
 		{
@@ -143,9 +149,13 @@ export function detectDevice(): BuiltinHandlerName | undefined
 				{
 					return 'Chrome67';
 				}
-				else
+				else if (version >= 55)
 				{
 					return 'Chrome55';
+				}
+				else
+				{
+					return 'Chrome49';
 				}
 			}
 			else
@@ -251,6 +261,9 @@ export class Device
 					break;
 				case 'Chrome55':
 					this._handlerFactory = Chrome55.createFactory();
+					break;
+				case 'Chrome49':
+					this._handlerFactory = Chrome49.createFactory();
 					break;
 				case 'Firefox60':
 					this._handlerFactory = Firefox60.createFactory();
