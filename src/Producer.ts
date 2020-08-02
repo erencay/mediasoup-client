@@ -358,7 +358,7 @@ export class Producer extends EnhancedEventEmitter
 
 		// If this Producer was paused/resumed and the state of the new
 		// track does not match, fix it.
-		if (track && this._disableTrackOnPause)
+		if (this._track && this._disableTrackOnPause)
 		{
 			if (!this._paused)
 				this._track.enabled = true;
@@ -394,7 +394,7 @@ export class Producer extends EnhancedEventEmitter
 	 * Sets the DSCP value.
 	 */
 	async setRtpEncodingParameters(
-		params: RTCRtpEncodingParameters[]
+		params: RTCRtpEncodingParameters
 	): Promise<void>
 	{
 		if (this._closed)

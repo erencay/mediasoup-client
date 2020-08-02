@@ -1,30 +1,31 @@
-import { HandlerFactory, HandlerInterface, HandlerRunOptions, HandlerSendOptions, HandlerSendResult, HandlerReceiveOptions, HandlerReceiveResult, HandlerSendDataChannelOptions, HandlerSendDataChannelResult, HandlerReceiveDataChannelOptions, HandlerReceiveDataChannelResult } from './HandlerInterface';
-import { IceParameters } from '../Transport';
+import { HandlerInterface, HandlerRunOptions, HandlerSendOptions, HandlerSendResult, HandlerReceiveOptions, HandlerReceiveResult, HandlerSendDataChannelOptions, HandlerSendDataChannelResult, HandlerReceiveDataChannelOptions, HandlerReceiveDataChannelResult } from './HandlerInterface';
+import { IceParameters, DtlsParameters } from '../Transport';
 import { RtpCapabilities } from '../RtpParameters';
 import { SctpCapabilities } from '../SctpParameters';
-export declare class Safari11 extends HandlerInterface {
-    private _direction?;
-    private _remoteSdp?;
-    private _sendingRtpParametersByKind?;
-    private _sendingRemoteRtpParametersByKind?;
-    private _pc;
-    private readonly _sendStream;
-    private readonly _mapSendLocalIdRtpSender;
-    private _nextSendLocalId;
-    private readonly _mapRecvLocalIdInfo;
-    private _hasDataChannelMediaSection;
-    private _nextSendSctpStreamId;
+export declare type FakeParameters = {
+    generateNativeRtpCapabilities: () => RtpCapabilities;
+    generateNativeSctpCapabilities: () => SctpCapabilities;
+    generateLocalDtlsParameters: () => DtlsParameters;
+};
+export declare class FakeHandler extends HandlerInterface {
+    private fakeParameters;
+    private _rtpParametersByKind?;
+    private _cname;
     private _transportReady;
+    private _nextLocalId;
+    private _tracks;
+    private _nextSctpStreamId;
     /**
      * Creates a factory function.
      */
-    static createFactory(): HandlerFactory;
-    constructor();
+    static createFactory(fakeParameters: FakeParameters): () => FakeHandler;
+    constructor(fakeParameters: any);
     get name(): string;
     close(): void;
+    setConnectionState(connectionState: string): void;
     getNativeRtpCapabilities(): Promise<RtpCapabilities>;
     getNativeSctpCapabilities(): Promise<SctpCapabilities>;
-    run({ direction, iceParameters, iceCandidates, dtlsParameters, sctpParameters, iceServers, iceTransportPolicy, additionalSettings, proprietaryConstraints, extendedRtpCapabilities }: HandlerRunOptions): void;
+    run({ direction, iceParameters, iceCandidates, dtlsParameters, sctpParameters, iceServers, iceTransportPolicy, proprietaryConstraints, extendedRtpCapabilities }: HandlerRunOptions): void;
     updateIceServers(iceServers: RTCIceServer[]): Promise<void>;
     restartIce(iceParameters: IceParameters): Promise<void>;
     getTransportStats(): Promise<RTCStatsReport>;
@@ -40,7 +41,5 @@ export declare class Safari11 extends HandlerInterface {
     getReceiverStats(localId: string): Promise<RTCStatsReport>;
     receiveDataChannel({ sctpStreamParameters, label, protocol }: HandlerReceiveDataChannelOptions): Promise<HandlerReceiveDataChannelResult>;
     private _setupTransport;
-    private _assertSendDirection;
-    private _assertRecvDirection;
 }
-//# sourceMappingURL=Safari11.d.ts.map
+//# sourceMappingURL=FakeHandler.d.ts.map

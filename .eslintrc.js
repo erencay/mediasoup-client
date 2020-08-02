@@ -193,9 +193,13 @@ switch (process.env.MEDIASOUP_NODE_LANGUAGE)
 		eslintConfig.rules =
 		{
 			...eslintConfig.rules,
-			'no-unused-vars'                            : 0,
-			'@typescript-eslint/ban-ts-ignore'          : 0,
-			'@typescript-eslint/member-delimiter-style' : [ 2,
+			'no-unused-vars'                                    : 0,
+			'@typescript-eslint/ban-types'                      : 0,
+			'@typescript-eslint/ban-ts-comment'                 : 0,
+			'@typescript-eslint/ban-ts-ignore'                  : 0,
+			'@typescript-eslint/explicit-module-boundary-types' : 0,
+			'@typescript-eslint/member-delimiter-style'         : [ 2,
+
 				{
 					multiline  : { delimiter: 'semi', requireLast: true },
 					singleline : { delimiter: 'semi', requireLast: false }
@@ -209,8 +213,9 @@ switch (process.env.MEDIASOUP_NODE_LANGUAGE)
 					ignoreRestSiblings : false
 				}
 			],
-			'@typescript-eslint/no-use-before-define' : 0,
-			'@typescript-eslint/no-empty-function'    : 0
+			'@typescript-eslint/no-use-before-define'  : 0,
+			'@typescript-eslint/no-empty-function'     : 0,
+			'@typescript-eslint/no-non-null-assertion' : 0
 		};
 
 		break;
